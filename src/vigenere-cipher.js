@@ -36,14 +36,17 @@ export default class VigenereCipheringMachine {
     if (string === undefined || key === undefined) throw new Error('Incorrect arguments!');
 
     let res = '';
-    const keyArr = key.repeat(Math.floor(string.length / key.length) + 1).split("").map((s) => s.toUpperCase());
-    const strArr = string.split("").map((s) => s.toUpperCase());
+    const keyArr = key.toUpperCase().repeat(Math.floor(string.length / key.length) + 1).split("");
+    const strArr = string.toUpperCase().split("");
 
     for (let i = 0, j = 0; i < strArr.length; i++, j++) {
       if (this.letters.indexOf(strArr[i]) === -1) {
         res += strArr[i];
         j--;
         continue;
+      }
+      while (this.letters.indexOf(keyArr[j]) === -1) {
+        j++;
       }
       let index = this.letters.indexOf(strArr[i]) + this.letters.indexOf(keyArr[j]);
       if (index + 1 > this.letters.length) {
@@ -62,12 +65,9 @@ export default class VigenereCipheringMachine {
     // remove line with error and write your code here
     if (string === undefined || key === undefined) throw new Error('Incorrect arguments!');
 
-    if (!this.type) {
-      string = string.split("").reverse().join("");
-    }
     let res = '';
-    const keyArr = key.repeat(Math.floor(string.length / key.length) + 1).split("").map((s) => s.toUpperCase());
-    const strArr = string.split("").map((s) => s.toUpperCase());
+    const keyArr = key.toUpperCase().repeat(Math.floor(string.length / key.length) + 1).split("");
+    const strArr = string.toUpperCase().split("");
 
     for (let i = 0, j = 0; i < strArr.length; i++, j++) {
       if (this.letters.indexOf(strArr[i]) === -1) {
@@ -75,13 +75,18 @@ export default class VigenereCipheringMachine {
         j--;
         continue;
       }
+      while (this.letters.indexOf(keyArr[j]) === -1) {
+        j++;
+      }
       let index = this.letters.indexOf(strArr[i]) - this.letters.indexOf(keyArr[j]);
       if (index < 0) {
         index += this.letters.length;
       }
       res += this.letters[index];
     }
-
+    if (!this.type) {
+      res = res.split("").reverse().join("");
+    }
     return res;
   }
 }
