@@ -16,7 +16,7 @@ export default function getSeason(date) {
   // remove line with error and write your code here
 
   if (!date) return 'Unable to determine the time of year!';
-  if (!(typeof date.getMonth === 'function')) throw new Error('Invalid date!');
+  if (!(date instanceof Date) || date.hasOwnProperty('getMonth') || date.hasOwnProperty('toString')) throw new Error('Invalid date!');
 
   if ([11, 0, 1].includes(date.getMonth())) {
     return 'winter';
